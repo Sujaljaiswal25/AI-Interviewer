@@ -103,5 +103,24 @@ import blackListModel from "../models/blacklist.model.js";
     res.status(200).json({ message: "User logged out successfully" });
  }
 
+ const getMe = async (req, res) => {
 
-    export { register, login, logout }
+    const user = await userModel.findById(req.user.id);
+
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+        message: "User details fetched successfully",
+        user: {
+            id: user._id,
+            username: user.username,
+            email: user.email
+        }
+    })
+
+ }
+
+
+    export { register, login, logout, getMe }
